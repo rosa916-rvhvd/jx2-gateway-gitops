@@ -1,0 +1,34 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jx2-poi-gateway-app-dev
+  namespace: janus-argocd
+  labels:
+    argocd/app-name: jx2-poi-gateway-app-dev
+  annotations:
+    argocd/app-name: jx2-poi-gateway-app-dev
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io  
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rosa916-rvhvd/jx2-gateway-gitops
+    targetRevision: HEAD
+    path: ./helm/app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: jx2
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - RespectIgnoreDifferences=true
+    - ApplyOutOfSyncOnly=true    
+    retry:
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 10m # the maximum amount of time allowed for the backoff strategy

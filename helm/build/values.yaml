@@ -1,0 +1,15 @@
+app:
+  name: jx2-poi-gateway-app
+  namespace: jx2
+  cluster: .apps.rosa916.9nln.p1.openshiftapps.com
+
+git:
+  branch: main
+  repo: https://github.com/rosa916-rvhvd/jx2-gateway
+  org: rosa916-rvhvd
+  name: jx2-gateway
+
+image:
+  host: image-registry.openshift-image-registry.svc:5000
+  name: jx2/poi-gateway-app
+  tag: latest
